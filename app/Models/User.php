@@ -6,43 +6,42 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    // Указываем поля таблиц (без id, created_at и updated_at)
     protected $fillable = [
+        'surname',
         'name',
+        'patronymic',
+        'sex',
+        'birthday',
         'email',
         'password',
+        'nickname',
+        'avatar',
+        'phone',
+        'api_token',
+        'role_id',
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    // Списки полей для скрытия
     protected $hidden = [
         'password',
-        'remember_token',
+        'api_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+    // Списки полей для скрытия
+    protected function casts(): array{
+    return [
+        'password' => 'hashed'
+];
+}
+    // Связь с моделью ROle M:1
+    public  function  role(){
+        return $this->belongsTo(Role::class);
     }
 }
