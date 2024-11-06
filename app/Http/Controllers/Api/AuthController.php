@@ -31,7 +31,7 @@ class AuthController extends Controller
            ...$request->validated(), 'avatar' => $path, 'role_id' => $role_user->id
         ]);
 
-        // Генерируем токена
+        // Генерация токена
         $user->api_token = Hash::make(Str::random(60));
         $user->save();
 
